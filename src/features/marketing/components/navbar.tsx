@@ -8,7 +8,7 @@ import Container from "@/motion/container";
 import Link from "next/link";
 import MobileMenu from "./mobile-menu";
 import { useEffect, useState } from "react";
-import { MenuIcon, MenuSquare, XIcon } from "lucide-react";
+import { MenuIcon, XIcon } from "lucide-react";
 
 interface NavBarProps {
     user?: user;

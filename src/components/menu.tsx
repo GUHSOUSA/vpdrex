@@ -1,7 +1,7 @@
 "use client"
 
 import { NavigationMenu, NavigationMenuContent, NavigationMenuItem, NavigationMenuLink, NavigationMenuList, NavigationMenuTrigger } from "@/components/ui/navigation-menu";
-import { Server, Cloud, Database, Terminal, CircleHelp, Newspaper } from 'lucide-react';
+import { Server, Cloud, Database, CircleHelp, Newspaper } from 'lucide-react';
 import Link from 'next/link';
 import React from 'react';
 import Icons from "../global/icons";

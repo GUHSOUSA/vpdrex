@@ -9,7 +9,7 @@ import Image from "next/image";
 import Link from "next/link";
 
 const MarketingPage = () => {
-    const [open, setOpen] = useAuthModal();
+    const [_open, setOpen] = useAuthModal();
 
     return (
         <section className="w-full relative flex items-center justify-center flex-col px-4 md:px-0 py-8">

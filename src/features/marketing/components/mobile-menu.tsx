@@ -1,7 +1,6 @@
 "use client";
 
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
-import Icons from "@/global/icons";
 import { useClickOutside } from "@/hooks/use-click-outside";
 import { cn } from "@/lib/utils";
 import { motion } from "framer-motion";
