@@ -1,22 +1,25 @@
 "use client";
-
-import { MaxWidth } from "@/components/max-width";
-import { Button } from "@/components/ui/button";
-import { cn } from "@/lib/utils";
-import { ArrowRightIcon, Menu, TvIcon, XIcon } from "lucide-react";
+import { user } from "@/@types/user";
+import Menu from "@/components/menu";
+import { Button, buttonVariants } from "@/components/ui/button";
+import { useAuthModal } from "@/features/auth/store/use-auth-modal";
+import Icons from "@/global/icons";
+import Container from "@/motion/container";
 import Link from "next/link";
-import { useEffect, useState } from 'react';
-import MobileSidebar from "../mobile-sidebar";
-import MobileMenu from "@/features/mobile-menu";
+import MobileMenu from "./mobile-menu";
+import { useEffect, useState } from "react";
+import { MenuIcon, MenuSquare, XIcon } from "lucide-react";
 
+interface NavBarProps {
+    user?: user;
+}
 
-const Navbar = () => {
-
-    const { user } = {
-        "user": null
-    };
-
+export const NavBar = ({
+    user
+}: NavBarProps) => {
+    const [_open, setOpen] = useAuthModal();
     const [isOpen, setIsOpen] = useState<boolean>(false);
+
 
     useEffect(() => {
         if (isOpen) {
@@ -29,66 +32,62 @@ const Navbar = () => {
             document.body.style.overflow = '';
         };
     }, [isOpen]);
-
-
     return (
-        <div className="relative w-full h-full">
-            <div className="z-[99] fixed pointer-events-none inset-x-0 h-[88px] bg-[rgba(10,10,10,0.8)] backdrop-blur-sm [mask:linear-gradient(to_bottom,#000_20%,transparent_calc(100%-20%))]"></div>
+        <header className="px-4 h-14 sticky top-0 inset-x-0 w-full bg-background/40 backdrop-blur-lg border-b border-border z-50">
+            <Container reverse>
+                <div className="flex items-center justify-between h-full mx-auto md:max-w-screen-xl">
+                    <div className="flex items-start">
+                        <Link href="/" className="flex items-center gap-2">
+                            <Icons.logo className="w-8 h-8" />
+                            <span className="text-lg font-medium">
+                                VpDrex
+                            </span>
+                        </Link>
+                    </div>
+                    <nav className="hidden md:block absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2">
+                        <Menu />
 
-            <header
-                className={cn(
-                    "fixed top-4 inset-x-0 mx-auto max-w-6xl px-2 md:px-12 z-[100] transform th",
-                    isOpen ? "h-[calc(100%-24px)]" : "h-12"
-                )}
-            >
-                <MaxWidth className="backdrop-blur-lg rounded-xl lg:rounded-2xl border border-[rgba(124,124,124,0.2)] px- md:px-2 flex items-center justify-start">
-                    <div className="flex items-center justify-between w-full sticky mt-[7px] lg:mt-auto mb-auto inset-x-0">
-                        <div className="flex items-center flex-1 lg:flex-none pl-1">
-                            <Link href="/" className="text-lg font-semibold text-foreground">
-                                <TvIcon className="w-auto h-5" />
-                            </Link>
-                            <div className="items-center hidden ml-4 lg:flex">
-                                <Menu />
-                            </div>
-                        </div>
-                        <div className="items-center flex gap-2 lg:gap-4">
+                    </nav>
+                    <div className="flex flex-row items-center gap-4">
+                        <div className="flex items-center gap-4">
                             {user ? (
-                                <Button size="sm" variant="white" asChild className="hidden sm:flex">
-                                    <Link href="/app">
-                                        Dashboard
-                                    </Link>
-                                </Button>
+                                <Link href="/dashboard" className={buttonVariants({ size: "sm", variant: "ghost" })}>
+                                    Dashboard
+                                </Link>
                             ) : (
                                 <>
-                                    <Button size="sm" variant="tertiary" asChild className="hover:translate-y-0 hover:scale-100">
-                                        <Link href="/auth/signin">
-                                            Login
-                                        </Link>
+                                    <Button
+                                        onClick={() => setOpen(true)}
+                                        size="sm"
+                                        variant="outline"
+                                        className="rounded-sm h-8"
+                                    >
+                                        Entrar
                                     </Button>
-                                    <Button size="sm" variant="white" asChild className="hidden sm:flex">
-                                        <Link href="/auth/signup">
-                                            Start for free
-                                            <ArrowRightIcon className="w-4 h-4 ml-2 hidden lg:block" />
-                                        </Link>
+                                    <Button
+                                        onClick={() => setOpen(true)}
+                                        size="sm"
+                                        variant="outline"
+                                        className="rounded-sm h-8 bg-[#09142a] hidden md:flex"
+                                    >
+                                        Faça parte
                                     </Button>
-                                </>
+                                    <Button
+                                        size="icon"
+                                        variant="ghost"
+                                        onClick={() => setIsOpen((prev) => !prev)}
+                                        className="lg:hidden p-2 w-8 h-8"
+                                    >
+                                        {isOpen ? <XIcon className="w-4 h-4 duration-300" /> : <MenuIcon className="w-3.5 h-3.5 duration-300" />}
+                                    </Button></>
                             )}
-                            <Button
-                                size="icon"
-                                variant="ghost"
-                                onClick={() => setIsOpen((prev) => !prev)}
-                                className="lg:hidden p-2 w-8 h-8"
-                            >
-                                {isOpen ? <XIcon className="w-4 h-4 duration-300" /> : <Menu className="w-3.5 h-3.5 duration-300" />}
-                            </Button>
                         </div>
+                        <MobileMenu isOpen={isOpen} setIsOpen={setIsOpen} />
                     </div>
-                    <MobileMenu isOpen={isOpen} setIsOpen={setIsOpen} />
-                </MaxWidth>
-            </header>
+                </div>
 
-        </div>
-    )
+            </Container>
+
+        </header>
+    );
 };
-
-export default Navbar

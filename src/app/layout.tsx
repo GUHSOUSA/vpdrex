@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
+import { JotaiProvider } from "@/providers/jotai-provider";
+import { Modals } from "@/components/modals";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -23,11 +25,13 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang="en">
       <body
-        className={`min-h-screen bg-background text-foreground antialiased font-default overflow-x-hidden !scrollbar-hide`}
-      >
+        className={`min-h-screen bg-background text-foreground antialiased max-w-full overflow-x-hidden`}
+      ><JotaiProvider>
+        <Modals/>
         {children}
+      </JotaiProvider>
       </body>
     </html>
   );
