@@ -1,10 +1,10 @@
 "use client"
 
 import { NavigationMenu, NavigationMenuContent, NavigationMenuItem, NavigationMenuLink, NavigationMenuList, NavigationMenuTrigger } from "@/components/ui/navigation-menu";
+import Icons from "@/global/icons";
 import { Server, Cloud, Database, CircleHelp, Newspaper } from 'lucide-react';
 import Link from 'next/link';
 import React from 'react';
-import Icons from "../global/icons";
 
 interface Props {
     title: string;

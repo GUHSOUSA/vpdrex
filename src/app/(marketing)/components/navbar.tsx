@@ -1,14 +1,13 @@
 "use client";
 import { user } from "@/@types/user";
-import Menu from "@/components/menu";
-import { Button, buttonVariants } from "@/components/ui/button";
-import { useAuthModal } from "@/features/auth/store/use-auth-modal";
+
 import Icons from "@/global/icons";
 import Container from "@/motion/container";
 import Link from "next/link";
-import MobileMenu from "./mobile-menu";
-import { useEffect, useState } from "react";
-import { MenuIcon, XIcon } from "lucide-react";
+import { Button, buttonVariants } from "@/components/ui/button";
+import Menu from "./menu";
+import { ModeToggle } from "@/global/toggle-menu";
+import { useRouter } from "next/navigation";
 
 interface NavBarProps {
     user?: user;
@@ -17,21 +16,7 @@ interface NavBarProps {
 export const NavBar = ({
     user
 }: NavBarProps) => {
-    const [_open, setOpen] = useAuthModal();
-    const [isOpen, setIsOpen] = useState<boolean>(false);
-
-
-    useEffect(() => {
-        if (isOpen) {
-            document.body.style.overflow = 'hidden';
-        } else {
-            document.body.style.overflow = '';
-        }
-
-        return () => {
-            document.body.style.overflow = '';
-        };
-    }, [isOpen]);
+    const router = useRouter();
     return (
         <header className="px-4 h-14 sticky top-0 inset-x-0 w-full bg-background/40 backdrop-blur-lg border-b border-border z-50">
             <Container reverse>
@@ -45,8 +30,7 @@ export const NavBar = ({
                         </Link>
                     </div>
                     <nav className="hidden md:block absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2">
-                        <Menu />
-
+                    <Menu/>
                     </nav>
                     <div className="flex flex-row items-center gap-4">
                         <div className="flex items-center gap-4">
@@ -57,32 +41,16 @@ export const NavBar = ({
                             ) : (
                                 <>
                                     <Button
-                                        onClick={() => setOpen(true)}
+                                        onClick={() => router.push("/login")}
                                         size="sm"
                                         variant="outline"
-                                        className="rounded-sm h-8"
                                     >
                                         Entrar
                                     </Button>
-                                    <Button
-                                        onClick={() => setOpen(true)}
-                                        size="sm"
-                                        variant="outline"
-                                        className="rounded-sm h-8 bg-[#09142a] hidden md:flex"
-                                    >
-                                        Faça parte
-                                    </Button>
-                                    <Button
-                                        size="icon"
-                                        variant="ghost"
-                                        onClick={() => setIsOpen((prev) => !prev)}
-                                        className="lg:hidden p-2 w-8 h-8"
-                                    >
-                                        {isOpen ? <XIcon className="w-4 h-4 duration-300" /> : <MenuIcon className="w-3.5 h-3.5 duration-300" />}
-                                    </Button></>
+                                    <ModeToggle/>
+                                </>
                             )}
                         </div>
-                        <MobileMenu isOpen={isOpen} setIsOpen={setIsOpen} />
                     </div>
                 </div>
 
